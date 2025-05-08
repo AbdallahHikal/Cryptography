@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from fun import *
+import ast
 
 def perform_operation():
 
@@ -55,7 +56,7 @@ def perform_operation():
             output= keyboard_offset_E(input_text)
 
         elif(algorithm=="RSA"):
-            print
+            output= rsa_E(input_text)
 
 
 
@@ -99,7 +100,8 @@ def perform_operation():
             output= keyboard_offset_D(input_text)
 
         elif(algorithm=="RSA"):
-            print
+            p=ast.literal_eval(input_text)  ## Safely convert string to list to skip error when convert
+            output= rsa_D(p)
 
 
 
