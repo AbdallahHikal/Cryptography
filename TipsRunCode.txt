@@ -1,0 +1,12 @@
+installing this packages 
+
+go to the terminal of vs code is use it and do....
+
+
+pip install --upgrade pip setuptools wheel
+
+pip install sympy
+
+pip install onetimepad
+
+pip install pyDes
