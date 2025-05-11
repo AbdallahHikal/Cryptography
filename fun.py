@@ -112,7 +112,6 @@ def railfence_E(key, text):
         while pointer < len(text):
             cipherText[row] += text[pointer] 
             pointer += key
-        print(cipherText[row])
     return "".join(cipherText)
 
 def railfence_D(key, cipherText):
@@ -183,7 +182,7 @@ def columnar_E(s, key):
 def columnar_D(cipher_text, key):
     import math
     rows = math.ceil(len(cipher_text) / len(key))
-    arr = [['_' for _ in range(len(key))] for _ in range(rows)]
+    arr = [['*' for _ in range(len(key))] for _ in range(rows)]
     col_lengths = [rows] * len(key)
 
     total_chars = len(cipher_text)
@@ -201,7 +200,7 @@ def columnar_D(cipher_text, key):
     plaintext = ""
     for row in arr:
         for ch in row:
-            if ch != '_':
+            if ch != '*':
                 plaintext += ch
 
     return plaintext
