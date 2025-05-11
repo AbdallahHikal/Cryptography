@@ -181,28 +181,20 @@ def columnar_E(s, key):
 
 def columnar_D(s, key):
     rows = math.ceil(len(s) / len(key))
-    # Calculate how many full columns we have
     full_cols = len(s) % len(key)
     if full_cols == 0:
         full_cols = len(key)
     
-    # Create an empty matrix
     arr = [['_' for _ in range(len(key))] for _ in range(rows)]
-    
-    # Determine the order of columns to read
     kk = sorted(key)
     col_order = [key.index(c) for c in kk]
-    
-    # Fill the matrix column by column in the correct order
     pos = 0
     for h in col_order:
-        # Determine how many rows this column should have
         if h < full_cols:
             col_rows = rows
         else:
             col_rows = rows - 1
         
-        # Fill the column
         for j in range(col_rows):
             if pos < len(s):
                 arr[j][h] = s[pos]
@@ -212,7 +204,6 @@ def columnar_D(s, key):
     for r in arr:
         print(r)
     
-    # Read the plaintext row by row
     plain_text = ""
     for i in range(rows):
         for j in range(len(key)):
