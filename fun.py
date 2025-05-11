@@ -179,31 +179,47 @@ def columnar_E(s, key):
 
     return cipher_text
 
-def columnar_D(cipher_text, key):
-    import math
-    rows = math.ceil(len(cipher_text) / len(key))
-    arr = [['*' for _ in range(len(key))] for _ in range(rows)]
-    col_lengths = [rows] * len(key)
-
-    total_chars = len(cipher_text)
-    extra = (rows * len(key)) - total_chars
-    for i in range(extra):
-        col_lengths[-(i+1)] -= 1
-
-    index = 0
-    sorted_key = sorted([(char, i) for i, char in enumerate(key)])
-    for char, original_index in sorted_key:
-        for row in range(col_lengths[original_index]):
-            arr[row][original_index] = cipher_text[index]
-            index += 1
-
-    plaintext = ""
-    for row in arr:
-        for ch in row:
-            if ch != '*':
-                plaintext += ch
-
-    return plaintext
+def columnar_D(s, key):
+    rows = math.ceil(len(s) / len(key))
+    # Calculate how many full columns we have
+    full_cols = len(s) % len(key)
+    if full_cols == 0:
+        full_cols = len(key)
+    
+    # Create an empty matrix
+    arr = [['_' for _ in range(len(key))] for _ in range(rows)]
+    
+    # Determine the order of columns to read
+    kk = sorted(key)
+    col_order = [key.index(c) for c in kk]
+    
+    # Fill the matrix column by column in the correct order
+    pos = 0
+    for h in col_order:
+        # Determine how many rows this column should have
+        if h < full_cols:
+            col_rows = rows
+        else:
+            col_rows = rows - 1
+        
+        # Fill the column
+        for j in range(col_rows):
+            if pos < len(s):
+                arr[j][h] = s[pos]
+                pos += 1
+    
+    print("The decryption matrix is:")
+    for r in arr:
+        print(r)
+    
+    # Read the plaintext row by row
+    plain_text = ""
+    for i in range(rows):
+        for j in range(len(key)):
+            if arr[i][j] != '_':
+                plain_text += arr[i][j]
+    
+    return plain_text
 
 
 
@@ -262,7 +278,7 @@ def scytale_E(text, columns):
     return cipher
 
 def scytale_D(cipher, columns):
-    rows = -(-len(cipher) // columns)
+    rows = math.ceil(len(cipher) // columns)
     full = [''] * (rows * columns)
     k = 0
     for col in range(columns):
@@ -270,7 +286,7 @@ def scytale_D(cipher, columns):
             if k < len(cipher):
                 full[row * columns + col] = cipher[k]
                 k += 1
-    return ''.join(full).rstrip('_')  # Remove padding if present
+    return ''.join(full).rstrip('_')
 
 
 
