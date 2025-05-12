@@ -269,7 +269,7 @@ def scytale_E(text, columns):
     return cipher
 
 def scytale_D(cipher, columns):
-    rows = math.ceil(len(cipher) // columns)
+    rows = math.ceil(len(cipher) / columns)
     full = [''] * (rows * columns)
     k = 0
     for col in range(columns):
